@@ -12,6 +12,7 @@ vim.o.expandtab = true
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.cindent = true
+vim.o.wrap = false
 
 -- Package manager
 local function bootstrap_pckr()
@@ -48,6 +49,9 @@ require('pckr').add {
     'nvim-tree/nvim-web-devicons',
     'stevearc/oil.nvim',
     'kylechui/nvim-surround',
+    'nvim-orgmode/orgmode',
+    'NeogitOrg/neogit',
+    'sindrets/diffview.nvim'
 }
 
 -- Colorscheme
@@ -85,7 +89,6 @@ vim.keymap.set('n', '<leader>gd', vim.lsp.buf.declaration)
 vim.keymap.set('n', '<leader>gD', vim.lsp.buf.definition)
 
 vim.diagnostic.config({
-    underline = false,
     virtual_text = {
         spacing = 2,
     },
@@ -143,6 +146,8 @@ remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
 
 require('gitsigns').setup()
 require('nvim-surround').setup()
+require('orgmode').setup()
 
 vim.keymap.set('n', '<leader>fp', ':e ~/.config/nvim/init.lua<CR>')
 vim.keymap.set('n', '<leader>bk', ':bd<CR>')
+vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
