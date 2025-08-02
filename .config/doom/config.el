@@ -1,11 +1,16 @@
 ;; Appearance Settings / Original DOOM Settings
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 14))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-string-face :slant italic))
 (setq display-line-numbers-type 'relative)
 (setq doom-theme 'doom-tomorrow-night)
 (setq doom-modeline-height 35)
 (setq doom-modeline-major-mode-icon t)
-(setq word-wrap t)
 (setq fancy-splash-image "~/.config/doom/emacs.png")
 
 
@@ -20,7 +25,7 @@
 
 ;; MacOS Settings
 
-;(setq default-frame-alist '((undecorated-round . t)))
+(setq default-frame-alist '((undecorated-round . t)))
 (menu-bar-mode 0)
 
 
