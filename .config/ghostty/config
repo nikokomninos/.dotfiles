@@ -1,8 +1,9 @@
 font-size = 13
 font-thicken = true
 font-thicken-strength = 255
+font-feature = -calt
 adjust-cell-width = -5%
-theme = /Applications/Ghostty.app/Contents/Resources/ghostty/themes/MyTomorrowNight
+theme = /Users/nk/.config/ghostty/vague
 window-padding-x = 10
 window-padding-y = 10
 macos-titlebar-style = hidden
