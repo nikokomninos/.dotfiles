@@ -1,6 +1,6 @@
 ;; Appearance Settings / Original DOOM Settings
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 14))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 13))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -25,7 +25,7 @@
 
 ;; MacOS Settings
 
-(setq default-frame-alist '((undecorated-round . t)))
+;;(setq default-frame-alist '((undecorated-round . t)))
 (menu-bar-mode 0)
 
 
@@ -48,3 +48,7 @@
 (map! :leader
       :desc "Fuzzy find file"
       "f z" #'fzf-find-file-in-dir)
+
+(map! :leader
+      :desc "+format:buffer"
+      "b f" #'+format/buffer)
