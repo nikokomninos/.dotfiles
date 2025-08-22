@@ -11,7 +11,7 @@
 (setq doom-theme 'doom-tomorrow-night)
 (setq doom-modeline-height 35)
 (setq doom-modeline-major-mode-icon t)
-(setq fancy-splash-image "~/.config/doom/emacs.png")
+;;(setq fancy-splash-image "~/.config/doom/emacs.png")
 
 
 ;; Package Requires and Initializations
@@ -25,7 +25,7 @@
 
 ;; MacOS Settings
 
-;;(setq default-frame-alist '((undecorated-round . t)))
+(setq default-frame-alist '((undecorated-round . t)))
 (menu-bar-mode 0)
 
 
