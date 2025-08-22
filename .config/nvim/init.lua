@@ -1,153 +1,239 @@
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out,                            "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+end
+vim.opt.rtp:prepend(lazypath)
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.signcolumn = "yes"
-vim.o.termguicolors = true
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
 vim.o.clipboard = "unnamedplus"
+vim.o.signcolumn = "yes"
 vim.o.undofile = true
-vim.o.winborder = "rounded"
-vim.g.mapleader = " "
-vim.o.tabstop = 4      
-vim.o.shiftwidth = 4   
-vim.o.expandtab = true 
+vim.o.wrap = false
+vim.o.expandtab = true
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.cindent = true
-vim.o.wrap = false
-
--- Package manager
-local function bootstrap_pckr()
-    local pckr_path = vim.fn.stdpath("data") .. "/pckr/pckr.nvim"
-
-    if not (vim.uv or vim.loop).fs_stat(pckr_path) then
-        vim.fn.system({
-            'git',
-            'clone',
-            "--filter=blob:none",
-            'https://github.com/lewis6991/pckr.nvim',
-            pckr_path
-        })
-    end
-
-    vim.opt.rtp:prepend(pckr_path)
-end
-
-bootstrap_pckr()
-
-require('pckr').add {
-    'vague2k/vague.nvim',
-    'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope.nvim',
-    'neovim/nvim-lspconfig',
-    'mason-org/mason.nvim',
-    'mason-org/mason-lspconfig.nvim',
-    'ms-jpq/coq_nvim',
-    'ms-jpq/coq.artifacts',
-    'ms-jpq/coq.thirdparty',
-    'nvim-treesitter/nvim-treesitter',
-    'windwp/nvim-autopairs',
-    'lewis6991/gitsigns.nvim',
-    'nvim-tree/nvim-web-devicons',
-    'stevearc/oil.nvim',
-    'kylechui/nvim-surround',
-    'nvim-orgmode/orgmode',
-    'NeogitOrg/neogit',
-    'sindrets/diffview.nvim'
-}
-
--- Colorscheme
-
-vim.cmd("colorscheme vague")
-vim.cmd("hi statusline guibg=NONE")
-
--- Fuzzy finder
-
-vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
-vim.keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>")
-vim.keymap.set('n', '<leader>bb', ":Telescope buffers<CR>")
-vim.keymap.set('n', '<leader>fo', ":Oil<CR>")
-
--- LSP
-
-require('mason').setup()
-require('mason-lspconfig').setup {
-    automatic_enable = true
-}
-
-require('nvim-treesitter.configs').setup({
-    ensure_installed = { "lua", "javascript", "typescript", "rust" },
-    highlight = { enable = true },
-    indent = {
-        enable = true,
-    }
-})
-
-vim.cmd("COQnow -s")
-
-vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
-vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename)
-vim.keymap.set('n', '<leader>gd', vim.lsp.buf.declaration)
-vim.keymap.set('n', '<leader>gD', vim.lsp.buf.definition)
+vim.o.winborder = "rounded"
+vim.o.mouse = 'a'
+vim.o.breakindent = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.o.inccommand = 'split'
+vim.o.cursorline = true
+vim.o.scrolloff = 10
+vim.o.confirm = true
 
 vim.diagnostic.config({
-    virtual_text = {
-        spacing = 2,
+  virtual_text = {
+    spacing = 2,
+  },
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})
+
+require("lazy").setup({
+  spec = {
+    {
+      "vague2k/vague.nvim",
+      lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+      priority = 1000, -- make sure to load this before all the other plugins
+      config = function()
+        -- NOTE: you do not need to call setup if you don't want to.
+        require("vague").setup({
+          -- optional configuration here
+        })
+        vim.cmd("colorscheme vague")
+      end
     },
-})
 
--- Misc
+    { 'NMAC427/guess-indent.nvim' },
 
-require('oil').setup({
-    view_options = {
-        show_hidden = true,
+    { "nvim/nvim-lspconfig" },
+
+    { "nvim-tree/nvim-web-devicons", opts = {} },
+
+    { "lewis6991/gitsigns.nvim" },
+
+    {
+      "mason-org/mason-lspconfig.nvim",
+      opts = {},
+      dependencies = {
+        { "mason-org/mason.nvim", opts = {} },
+        "neovim/nvim-lspconfig",
+      },
     },
+
+    {
+      "nvim-treesitter/nvim-treesitter",
+      branch = 'master',
+      lazy = false,
+      build = ":TSUpdate",
+      opts = {
+        ensure_installed = { "lua", "typescript" },
+        auto_install = true,
+        highlight = { enable = true, },
+      },
+    },
+
+    {
+      'windwp/nvim-autopairs',
+      event = "InsertEnter",
+      config = true
+      -- use opts = {} for passing setup options
+      -- this is equivalent to setup({}) function
+    },
+
+    {
+      'nvim-telescope/telescope.nvim',
+      tag = '0.1.8',
+      dependencies = { 'nvim-lua/plenary.nvim' }
+    },
+
+    {
+      'stevearc/oil.nvim',
+      ---@module 'oil'
+      ---@type oil.SetupOpts
+      opts = {
+        view_options = { show_hidden = true },
+      },
+      -- Optional dependencies
+      dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+      lazy = false,
+    },
+
+    {
+      'saghen/blink.cmp',
+      -- optional: provides snippets for the snippet source
+      dependencies = { 'rafamadriz/friendly-snippets' },
+
+      -- use a release tag to download pre-built binaries
+      version = '1.*',
+      -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+      -- build = 'cargo build --release',
+      -- If you use nix, you can build from source using latest nightly rust with:
+      -- build = 'nix run .#build-plugin',
+
+      ---@module 'blink.cmp'
+      ---@type blink.cmp.Config
+      opts = {
+        -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+        -- 'super-tab' for mappings similar to vscode (tab to accept)
+        -- 'enter' for enter to accept
+        -- 'none' for no mappings
+        --
+        -- All presets have the following mappings:
+        -- C-space: Open menu or open docs if already open
+        -- C-n/C-p or Up/Down: Select next/previous item
+        -- C-e: Hide menu
+        -- C-k: Toggle signature help (if signature.enabled = true)
+        --
+        -- See :h blink-cmp-config-keymap for defining your own keymap
+        keymap = { preset = 'enter' },
+
+        appearance = {
+          -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+          -- Adjusts spacing to ensure icons are aligned
+          nerd_font_variant = 'mono'
+        },
+
+        -- (Default) Only show the documentation popup when manually triggered
+        completion = { documentation = { auto_show = true } },
+
+        -- Default list of enabled providers defined so that you can extend it
+        -- elsewhere in your config, without redefining it, due to `opts_extend`
+        sources = {
+          default = { 'lsp', 'path', 'snippets', 'buffer' },
+        },
+
+        -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+        -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+        -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+        --
+        -- See the fuzzy documentation for more information
+        fuzzy = { implementation = "prefer_rust_with_warning" }
+      },
+      opts_extend = { "sources.default" }
+    },
+
+    {
+      "L3MON4D3/LuaSnip",
+      -- follow latest release.
+      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      -- install jsregexp (optional!).
+      build = "make install_jsregexp"
+    },
+
+    {
+      "NeogitOrg/neogit",
+      dependencies = {
+        "nvim-lua/plenary.nvim",  -- required
+        "sindrets/diffview.nvim", -- optional - Diff integration
+
+        -- Only one of these is needed.
+        "nvim-telescope/telescope.nvim", -- optional
+      },
+    },
+
+    {
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      opts = {},
+    }
+  },
+  -- Configure any other settings here. See the documentation for more details.
+  -- colorscheme that will be used when installing plugins.
+  install = { colorscheme = { "vague" } },
+  -- automatically check for plugin updates
+  checker = { enabled = true },
 })
 
-require('nvim-autopairs').setup({
-    event = "InsertEnter",
-})
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
-local remap = vim.api.nvim_set_keymap
-local npairs = require('nvim-autopairs')
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gs', ":Telescope lsp_document_symbols<CR>")
+vim.keymap.set('n', 'gS', ":Telescope lsp_dynamic_workspace_symbols<CR>")
 
-npairs.setup({ map_bs = false, map_cr = false })
-
-vim.g.coq_settings = { keymap = { recommended = false } }
-
--- these mappings are coq recommended mappings unrelated to nvim-autopairs
-remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
-remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
-remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
-remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
-
--- skip it, if you use another global object
-_G.MUtils= {}
-
-MUtils.CR = function()
-  if vim.fn.pumvisible() ~= 0 then
-    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
-      return npairs.esc('<c-y>')
-    else
-      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
-    end
-  else
-    return npairs.autopairs_cr()
-  end
-end
-remap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
-
-MUtils.BS = function()
-  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
-    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
-  else
-    return npairs.autopairs_bs()
-  end
-end
-remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
-
-require('gitsigns').setup()
-require('nvim-surround').setup()
-require('orgmode').setup()
-
-vim.keymap.set('n', '<leader>fp', ':e ~/.config/nvim/init.lua<CR>')
+vim.keymap.set('n', '<leader>bb', ":Telescope buffers<CR>")
 vim.keymap.set('n', '<leader>bk', ':bd<CR>')
+
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
+vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
+vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename)
+
+vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
+vim.keymap.set('n', '<leader>fo', ":Oil<CR>")
+vim.keymap.set('n', '<leader>fp', ':e ~/.config/nvim/init.lua<CR>')
+
+vim.keymap.set('n', '<leader>hk', ":Telescope keymaps<CR>")
+
 vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
+
+vim.keymap.set('n', '<leader>ss', ":Telescope live_grep<CR>")
