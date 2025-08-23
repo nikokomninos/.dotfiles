@@ -1,3 +1,7 @@
+#if [ -z "$TMUX" ]; then
+#  tmux attach-session -t default || tmux new-session -s default
+#fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -103,11 +107,25 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH="~/.config/emacs/bin:Library/TeX/texbin:$PATH"
+setopt autolist
+unsetopt menucomplete
+
+export PATH="$HOME/.config/emacs/bin:Library/TeX/texbin:$PATH"
 export EDITOR=nvim
 
 alias ls='ls -a --color=auto'
 alias vim='nvim'
 alias sz='source ~/.zshrc'
-
+alias zc='vim ~/.zshrc'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias tmux='tmux attach-session -t default || tmux new-session -s default'
+
+eval "$(zoxide init zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/nk/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
