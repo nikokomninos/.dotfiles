@@ -20,7 +20,13 @@
 ;; General Hooks and Overrides
 
 (add-hook 'doc-view-mode-hook 'pdf-tools-install)
+(add-hook 'pdf-view-mode-hook 'pdf-view-midnight-minor-mode)
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+
+
+;; LSP
+
+(add-hook 'java-ts-mode-hook 'lsp)
 
 
 ;; MacOS Settings

@@ -94,7 +94,7 @@ require("lazy").setup({
       lazy = false,
       build = ":TSUpdate",
       opts = {
-        ensure_installed = { "lua", "typescript" },
+        ensure_installed = { "lua", "typescript", "html", "c", "cpp", "java" },
         auto_install = true,
         highlight = { enable = true, },
       },
@@ -200,11 +200,108 @@ require("lazy").setup({
       },
     },
 
+    -- {
+    --   "pmizio/typescript-tools.nvim",
+    --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    --   opts = {},
+    -- },
+
     {
-      "pmizio/typescript-tools.nvim",
-      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      "folke/trouble.nvim",
+      opts = {}, -- for default options, refer to the configuration section for custom setup.
+      cmd = "Trouble",
+    },
+
+    -- {
+    --   "nvim-neotest/neotest",
+    --   dependencies = {
+    --     "nvim-neotest/nvim-nio",
+    --     "nvim-lua/plenary.nvim",
+    --     "antoinemadec/FixCursorHold.nvim",
+    --     "nvim-treesitter/nvim-treesitter",
+    --     "rcasia/neotest-java",
+    --   },
+    --   config = function()
+    --     require("neotest").setup({
+    --       adapters = {
+    --         require("neotest-java"),
+    --       },
+    --     })
+    --   end,
+    -- },
+
+    -- {
+    --   "rcasia/neotest-java",
+    --   ft = "java",
+    --   dependencies = {
+    --     "mfussenegger/nvim-jdtls",
+    --     "mfussenegger/nvim-dap",           -- for the debugger
+    --     "rcarriga/nvim-dap-ui",            -- recommended
+    --     "theHamsta/nvim-dap-virtual-text", -- recommended
+    --   },
+    -- },
+
+    -- { "jay-babu/mason-nvim-dap.nvim" },
+
+    {
+      'chomosuke/typst-preview.nvim',
+      lazy = false, -- or ft = 'typst'
+      version = '1.*',
+      opts = {
+        -- open_cmd = '/Applications/Zen.app/Contents/MacOS/zen --new-window',
+        invert_colors = '{"rest": "always", "image": "never"}'
+      }, -- lazy.nvim will implicitly calls `setup {}`
+    },
+
+    {
+      'nvim-orgmode/orgmode',
+      event = 'VeryLazy',
+      ft = { 'org' },
+      config = function()
+        -- Setup orgmode
+        require('orgmode').setup({
+          org_agenda_files = '~/orgfiles/**/*',
+          org_default_notes_file = '~/orgfiles/refile.org',
+        })
+
+        -- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
+        -- add ~org~ to ignore_install
+        -- require('nvim-treesitter.configs').setup({
+        --   ensure_installed = 'all',
+        --   ignore_install = { 'org' },
+        -- })
+      end,
+    },
+
+    {
+      'MeanderingProgrammer/render-markdown.nvim',
+      dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+      -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' }, -- if you use standalone mini plugins
+      -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+      ---@module 'render-markdown'
+      ---@type render.md.UserConfig
       opts = {},
-    }
+    },
+
+    {
+      "iamcco/markdown-preview.nvim",
+      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+      build = "cd app && npm install",
+      init = function()
+        vim.g.mkdp_filetypes = { "markdown" }
+        -- vim.cmd(
+        --   [[
+        -- function MarkdownPreviewNewWindow(url)
+        --   execute "silent ! /Applications/Zen.app/Contents/MacOS/zen --new-window " . a:url
+        -- endfunction
+        -- ]]
+        -- )
+        -- vim.g.mkdp_browserfunc = 'MarkdownPreviewNewWindow'
+      end,
+      ft = { "markdown" },
+      opts = {
+      }
+    },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -227,6 +324,8 @@ vim.keymap.set('n', '<leader>bk', ':bd<CR>')
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
 vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename)
+vim.keymap.set('n', "<leader>cs", ":Trouble symbols toggle focus=false<CR>")
+vim.keymap.set('n', "<leader>cl", ":Trouble lsp toggle focus=false win.position=right<CR>")
 
 vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
 vim.keymap.set('n', '<leader>fo', ":Oil<CR>")
@@ -234,6 +333,18 @@ vim.keymap.set('n', '<leader>fp', ':e ~/.config/nvim/init.lua<CR>')
 
 vim.keymap.set('n', '<leader>hk', ":Telescope keymaps<CR>")
 
+vim.keymap.set('n', '<leader>lb', ":set tw=80<CR>:set fo+=t<CR>")
+
 vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
 
 vim.keymap.set('n', '<leader>ss', ":Telescope live_grep<CR>")
+
+-- vim.keymap.set('n', "<leader>td", ":lua require('neotest').run.run({strategy = 'dap'})<CR>")
+-- vim.keymap.set('n', "<leader>tf", ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>")
+-- vim.keymap.set('n', "<leader>tr", ":lua require('neotest').run.run()<CR>")
+-- vim.keymap.set('n', "<leader>ts", ":lua require('neotest').run.stop()<CR>")
+
+vim.keymap.set('n', "<leader>xx", ":Trouble diagnostics toggle<CR>")
+vim.keymap.set('n', "<leader>xX", ":Trouble diagnostics toggle filter.buf=0<CR>")
+vim.keymap.set('n', "<leader>xL", ":Trouble loclist toggle<CR>")
+vim.keymap.set('n', "<leader>xQ", ":Trouble qflist toggle<CR>")

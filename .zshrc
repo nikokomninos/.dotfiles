@@ -74,7 +74,8 @@ ZSH_THEME="lambda"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
+#plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
+plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting fzf-tab)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -106,19 +107,33 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff $word | delta'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview 'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview 'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-show:*' fzf-preview 'case "$group" in "commit tag") git show --color=always $word ;; *) git show --color=always $word | delta ;; esac'
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview 'case "$group" in "modified file") git diff $word | delta ;; "recent commit object name") git show --color=always $word | delta ;; *) git log --color=always $word ;; esac'
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':completion:*' list-max-items 20
 
 setopt autolist
 unsetopt menucomplete
 
-export PATH="$HOME/.config/emacs/bin:Library/TeX/texbin:$PATH"
+export PATH="$HOME/.config/emacs/bin:Library/TeX/texbin:/Users/nk/.local/bin:$PATH"
 export EDITOR=nvim
 
-alias ls='ls -a --color=auto'
+alias ls='ls -al --color=auto'
 alias vim='nvim'
 alias sz='source ~/.zshrc'
 alias zc='vim ~/.zshrc'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias tmux='tmux attach-session -t default || tmux new-session -s default'
+# alias tmux='tmux attach-session -t default || tmux new-session -s default'
+alias cd='z'
 
 eval "$(zoxide init zsh)"
 
