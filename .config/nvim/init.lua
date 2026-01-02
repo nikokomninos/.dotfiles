@@ -38,7 +38,7 @@ vim.o.splitbelow = true
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.o.inccommand = 'split'
-vim.o.cursorline = true
+-- vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
 
@@ -94,9 +94,11 @@ require("lazy").setup({
       lazy = false,
       build = ":TSUpdate",
       opts = {
-        ensure_installed = { "lua", "typescript", "html", "c", "cpp", "java" },
+        --ensure_installed = { "lua", "typescript", "html", "c", "cpp", "java" },
+        ensure_installed = "all",
         auto_install = true,
         highlight = { enable = true, },
+        ignore_install = { "org" },
       },
     },
 
@@ -168,7 +170,15 @@ require("lazy").setup({
         -- Default list of enabled providers defined so that you can extend it
         -- elsewhere in your config, without redefining it, due to `opts_extend`
         sources = {
-          default = { 'lsp', 'path', 'snippets', 'buffer' },
+          default = { 'copilot', 'lsp', 'path', 'snippets', 'buffer' },
+          providers = {
+            copilot = {
+              name = "copilot",
+              module = "blink-copilot",
+              score_offset = 100,
+              async = true,
+            },
+          },
         },
 
         -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
@@ -189,22 +199,22 @@ require("lazy").setup({
       build = "make install_jsregexp"
     },
 
-    {
-      "NeogitOrg/neogit",
-      dependencies = {
-        "nvim-lua/plenary.nvim",  -- required
-        "sindrets/diffview.nvim", -- optional - Diff integration
-
-        -- Only one of these is needed.
-        "nvim-telescope/telescope.nvim", -- optional
-      },
-    },
-
     -- {
-    --   "pmizio/typescript-tools.nvim",
-    --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    --   opts = {},
+    --   "NeogitOrg/neogit",
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",  -- required
+    --     "sindrets/diffview.nvim", -- optional - Diff integration
+
+    --     -- Only one of these is needed.
+    --     "nvim-telescope/telescope.nvim", -- optional
+    --   },
     -- },
+
+    {
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      opts = {},
+    },
 
     {
       "folke/trouble.nvim",
@@ -212,34 +222,34 @@ require("lazy").setup({
       cmd = "Trouble",
     },
 
-    -- {
-    --   "nvim-neotest/neotest",
-    --   dependencies = {
-    --     "nvim-neotest/nvim-nio",
-    --     "nvim-lua/plenary.nvim",
-    --     "antoinemadec/FixCursorHold.nvim",
-    --     "nvim-treesitter/nvim-treesitter",
-    --     "rcasia/neotest-java",
-    --   },
-    --   config = function()
-    --     require("neotest").setup({
-    --       adapters = {
-    --         require("neotest-java"),
-    --       },
-    --     })
-    --   end,
-    -- },
+    {
+      "nvim-neotest/neotest",
+      dependencies = {
+        "nvim-neotest/nvim-nio",
+        "nvim-lua/plenary.nvim",
+        "antoinemadec/FixCursorHold.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "rcasia/neotest-java",
+      },
+      config = function()
+        require("neotest").setup({
+          adapters = {
+            require("neotest-java"),
+          },
+        })
+      end,
+    },
 
-    -- {
-    --   "rcasia/neotest-java",
-    --   ft = "java",
-    --   dependencies = {
-    --     "mfussenegger/nvim-jdtls",
-    --     "mfussenegger/nvim-dap",           -- for the debugger
-    --     "rcarriga/nvim-dap-ui",            -- recommended
-    --     "theHamsta/nvim-dap-virtual-text", -- recommended
-    --   },
-    -- },
+    {
+      "rcasia/neotest-java",
+      ft = "java",
+      dependencies = {
+        "mfussenegger/nvim-jdtls",
+        "mfussenegger/nvim-dap",           -- for the debugger
+        "rcarriga/nvim-dap-ui",            -- recommended
+        "theHamsta/nvim-dap-virtual-text", -- recommended
+      },
+    },
 
     -- { "jay-babu/mason-nvim-dap.nvim" },
 
@@ -283,26 +293,129 @@ require("lazy").setup({
       opts = {},
     },
 
+    --{
+    --  "iamcco/markdown-preview.nvim",
+    --  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    --  build = "cd app && npm install",
+    --  config = function()
+    --    vim.g.mkdp_filetypes = { "markdown" }
+    --    -- vim.cmd(
+    --    --   [[
+    --    -- function MarkdownPreviewNewWindow(url)
+    --    --   execute "silent ! /Applications/Zen.app/Contents/MacOS/zen --new-window " . a:url
+    --    -- endfunction
+    --    -- ]]
+    --    -- )
+    --    -- vim.g.mkdp_browserfunc = 'MarkdownPreviewNewWindow'
+    --  end,
+    --  ft = { "markdown" },
+    --  opts = {
+    --  }
+    --},
+
+    -- nvim v0.8.0
     {
-      "iamcco/markdown-preview.nvim",
-      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-      build = "cd app && npm install",
-      init = function()
-        vim.g.mkdp_filetypes = { "markdown" }
-        -- vim.cmd(
-        --   [[
-        -- function MarkdownPreviewNewWindow(url)
-        --   execute "silent ! /Applications/Zen.app/Contents/MacOS/zen --new-window " . a:url
-        -- endfunction
-        -- ]]
-        -- )
-        -- vim.g.mkdp_browserfunc = 'MarkdownPreviewNewWindow'
-      end,
-      ft = { "markdown" },
-      opts = {
-      }
+      "kdheepak/lazygit.nvim",
+      lazy = true,
+      cmd = {
+        "LazyGit",
+        "LazyGitConfig",
+        "LazyGitCurrentFile",
+        "LazyGitFilter",
+        "LazyGitFilterCurrentFile",
+      },
+      -- optional for floating window border decoration
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+      },
+      -- setting the keybinding for LazyGit with 'keys' is recommended in
+      -- order to load the plugin when the command is run for the first time
     },
+
+    {
+      "mfussenegger/nvim-dap",
+      lazy = true,
+      config = function()
+        local dap = require("dap")
+      end
+      -- Copied from LazyVim/lua/lazyvim/plugins/extras/dap/core.lua and
+      -- modified.
+    },
+
+    {
+      "rcarriga/nvim-dap-ui",
+      config = true,
+      dependencies = {
+        "jay-babu/mason-nvim-dap.nvim",
+        "nvim-neotest/nvim-nio",
+        "theHamsta/nvim-dap-virtual-text",
+      },
+    },
+
+    {
+      "ellisonleao/carbon-now.nvim",
+      lazy = true,
+      cmd = "CarbonNow",
+      ---@param opts cn.ConfigSchema
+      opts = { [[ your custom config here ]] }
+    },
+
+    {
+      'stevearc/conform.nvim',
+      opts = {
+        formatters_by_ft = {
+          html = { "biome" },
+          css = { "biome" },
+          javascript = { "biome", stop_after_first = true },
+          javascriptreact = { "biome", stop_after_first = true },
+          typescript = { "biome", stop_after_first = true },
+          typescriptreact = { "biome", stop_after_first = true },
+          python = { "ruff", stop_after_first = true },
+          go = { "gopls", stop_after_first = true },
+        },
+      },
+    },
+
+    {
+      'norcalli/nvim-colorizer.lua',
+    },
+
+    {
+      'barrett-ruth/live-server.nvim',
+      build = 'pnpm add -g live-server',
+      cmd = { 'LiveServerStart', 'LiveServerStop' },
+      config = true
+    },
+
+    --[[
+    {
+      'github/copilot.vim',
+      cmd = "Copilot",
+      event = "BufWinEnter",
+      init = function()
+        vim.g.copilot_no_maps = true
+      end,
+      config = function()
+        -- Block the normal Copilot suggestions
+        vim.api.nvim_create_augroup("github_copilot", { clear = true })
+        vim.api.nvim_create_autocmd({ "FileType", "BufUnload" }, {
+          group = "github_copilot",
+          callback = function(args)
+            vim.fn["copilot#On" .. args.event]()
+          end,
+        })
+        vim.fn["copilot#OnFileType"]()
+      end,
+    },
+    --]]
+
+    { 'fang2hou/blink-copilot' },
+
+    { 'sindrets/diffview.nvim' },
+
   },
+
+
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "vague" } },
@@ -310,41 +423,70 @@ require("lazy").setup({
   checker = { enabled = true },
 })
 
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gk', vim.diagnostic.open_float)
+vim.keymap.set('n', 'gr', "Telescope: lsp_references<CR>")
 vim.keymap.set('n', 'gs', ":Telescope lsp_document_symbols<CR>")
 vim.keymap.set('n', 'gS', ":Telescope lsp_dynamic_workspace_symbols<CR>")
 
 vim.keymap.set('n', '<leader>bb', ":Telescope buffers<CR>")
 vim.keymap.set('n', '<leader>bk', ':bd<CR>')
+vim.keymap.set('n', '<leader>bn', ':bn<CR>')
+vim.keymap.set('n', '<leader>bp', ':bp<CR>')
 
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
+vim.keymap.set('n', '<leader>cm', function() require("conform").format({ async = true }) end)
 vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename)
 vim.keymap.set('n', "<leader>cs", ":Trouble symbols toggle focus=false<CR>")
 vim.keymap.set('n', "<leader>cl", ":Trouble lsp toggle focus=false win.position=right<CR>")
 
+vim.keymap.set('n', "<leader>db", function() require("dap").toggle_breakpoint() end)
+vim.keymap.set('n', "<leader>dc", function() require("dap").continue() end)
+vim.keymap.set('n', "<leader>dC", function() require("dap").run_to_cursor() end)
+vim.keymap.set('n', "<leader>dT", function() require("dap").terminate() end)
+vim.keymap.set('n', "<leader>du", function() require("dapui").toggle({}) end)
+
 vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
+vim.keymap.set('n', '<leader>fm', ":! Open -a Finder %:p:h<CR><CR>")
 vim.keymap.set('n', '<leader>fo', ":Oil<CR>")
 vim.keymap.set('n', '<leader>fp', ':e ~/.config/nvim/init.lua<CR>')
 
 vim.keymap.set('n', '<leader>hk', ":Telescope keymaps<CR>")
 
 vim.keymap.set('n', '<leader>lb', ":set tw=80<CR>:set fo+=t<CR>")
+vim.keymap.set('n', '<leader>ll', ":Lazy<CR>")
+vim.keymap.set('n', '<leader>lm', ":Mason<CR>")
 
-vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
+-- vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
+vim.keymap.set('n', '<leader>gc', ':LazyGitCurrentFile<CR>')
+vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>')
+vim.keymap.set('n', '<leader>gD', ':DiffviewFileHistory<CR>')
+vim.keymap.set('n', '<leader>gf', ':LazyGitFilter<CR>')
+vim.keymap.set('n', '<leader>gF', ':LazyGitFilterCurrentFile<CR>')
+vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')
+vim.keymap.set('n', '<leader>gl', ':LazyGitLog<CR>')
+
 
 vim.keymap.set('n', '<leader>ss', ":Telescope live_grep<CR>")
 
--- vim.keymap.set('n', "<leader>td", ":lua require('neotest').run.run({strategy = 'dap'})<CR>")
--- vim.keymap.set('n', "<leader>tf", ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>")
--- vim.keymap.set('n', "<leader>tr", ":lua require('neotest').run.run()<CR>")
--- vim.keymap.set('n', "<leader>ts", ":lua require('neotest').run.stop()<CR>")
+vim.keymap.set('n', "<leader>td", ":lua require('neotest').run.run({strategy = 'dap'})<CR>")
+vim.keymap.set('n', "<leader>tf", ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>")
+vim.keymap.set('n', "<leader>tr", ":lua require('neotest').run.run()<CR>")
+vim.keymap.set('n', "<leader>ts", ":lua require('neotest').run.stop()<CR>")
+vim.keymap.set('n', "<leader>tt", ":Neotest summary <CR>") -- tehehehe
 
-vim.keymap.set('n', "<leader>xx", ":Trouble diagnostics toggle<CR>")
-vim.keymap.set('n', "<leader>xX", ":Trouble diagnostics toggle filter.buf=0<CR>")
-vim.keymap.set('n', "<leader>xL", ":Trouble loclist toggle<CR>")
-vim.keymap.set('n', "<leader>xQ", ":Trouble qflist toggle<CR>")
+vim.keymap.set('n', "<leader>Tc", ":tabclose<CR>")
+vim.keymap.set('n', "<leader>Tn", ":tabnext<CR>")
+vim.keymap.set('n', "<leader>Tp", ":tabprevious<CR>")
+
+vim.keymap.set('n', "<leader>xg", ":Trouble diagnostics toggle<CR>")
+vim.keymap.set('n', "<leader>xx", ":Trouble diagnostics toggle filter.buf=0<CR>")
+vim.keymap.set('n', "<leader>xl", ":Trouble loclist toggle<CR>")
+vim.keymap.set('n', "<leader>xq", ":Trouble qflist toggle<CR>")
