@@ -5,6 +5,8 @@ set default-bg "#141415"
 set statusbar-fg "#cdcdcd"
 set statusbar-bg "#1c1c24"
 
+set inputbar-fg "#cdcdcd"
+
 set completion-highlight-bg "#333738"
 set completion-highlight-fg "#ababab"
 
