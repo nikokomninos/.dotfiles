@@ -272,6 +272,8 @@ require("lazy").setup({
         require('orgmode').setup({
           org_agenda_files = '~/orgfiles/**/*',
           org_default_notes_file = '~/orgfiles/refile.org',
+          org_hide_emphasis_markers = true,
+          org_highlight_latex_and_related = "native"
         })
 
         -- NOTE: If you are using nvim-treesitter with ~ensure_installed = "all"~ option
@@ -431,9 +433,6 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
 vim.keymap.set('n', 'gk', vim.diagnostic.open_float)
-vim.keymap.set('n', 'gr', "Telescope: lsp_references<CR>")
-vim.keymap.set('n', 'gs', ":Telescope lsp_document_symbols<CR>")
-vim.keymap.set('n', 'gS', ":Telescope lsp_dynamic_workspace_symbols<CR>")
 
 vim.keymap.set('n', '<leader>bb', ":Telescope buffers<CR>")
 vim.keymap.set('n', '<leader>bk', ':bd<CR>')
@@ -444,8 +443,11 @@ vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
 vim.keymap.set('n', '<leader>cm', function() require("conform").format({ async = true }) end)
 vim.keymap.set('n', '<leader>cr', vim.lsp.buf.rename)
-vim.keymap.set('n', "<leader>cs", ":Trouble symbols toggle focus=false<CR>")
-vim.keymap.set('n', "<leader>cl", ":Trouble lsp toggle focus=false win.position=right<CR>")
+--vim.keymap.set('n', "<leader>cs", ":Trouble symbols toggle focus=true pinned=true win.relative=win win.position=left<CR>")
+--vim.keymap.set('n', "<leader>cl", ":Trouble lsp toggle focus=true win.position=right<CR>")
+vim.keymap.set('n', 'cR', ":Telescope lsp_references<CR>")
+vim.keymap.set('n', 'cs', ":Telescope lsp_document_symbols<CR>")
+vim.keymap.set('n', 'cS', ":Telescope lsp_dynamic_workspace_symbols<CR>")
 
 vim.keymap.set('n', "<leader>db", function() require("dap").toggle_breakpoint() end)
 vim.keymap.set('n', "<leader>dc", function() require("dap").continue() end)
@@ -473,7 +475,7 @@ vim.keymap.set('n', '<leader>gF', ':LazyGitFilterCurrentFile<CR>')
 vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')
 vim.keymap.set('n', '<leader>gl', ':LazyGitLog<CR>')
 
-
+vim.keymap.set('n', '<leader>sb', ":Telescope current_buffer_fuzzy_find<CR>")
 vim.keymap.set('n', '<leader>ss', ":Telescope live_grep<CR>")
 
 vim.keymap.set('n', "<leader>td", ":lua require('neotest').run.run({strategy = 'dap'})<CR>")
@@ -482,9 +484,9 @@ vim.keymap.set('n', "<leader>tr", ":lua require('neotest').run.run()<CR>")
 vim.keymap.set('n', "<leader>ts", ":lua require('neotest').run.stop()<CR>")
 vim.keymap.set('n', "<leader>tt", ":Neotest summary <CR>") -- tehehehe
 
-vim.keymap.set('n', "<leader>Tc", ":tabclose<CR>")
-vim.keymap.set('n', "<leader>Tn", ":tabnext<CR>")
-vim.keymap.set('n', "<leader>Tp", ":tabprevious<CR>")
+-- vim.keymap.set('n', "<leader>Tc", ":tabclose<CR>")
+-- vim.keymap.set('n', "<leader>Tn", ":tabnext<CR>")
+-- vim.keymap.set('n', "<leader>Tp", ":tabprevious<CR>")
 
 vim.keymap.set('n', "<leader>xg", ":Trouble diagnostics toggle<CR>")
 vim.keymap.set('n', "<leader>xx", ":Trouble diagnostics toggle filter.buf=0<CR>")

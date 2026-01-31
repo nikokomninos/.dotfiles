@@ -49,3 +49,5 @@
 ;; (unpin! t)
 
 (package! fzf)
+;;(package! lsp-biome :recipe (:host 'github :repo "cxa/lsp-biome"))
+

@@ -1,0 +1,13 @@
+set adjust-open "best-fit"
+
+set default-bg "#141415"
+
+set statusbar-fg "#cdcdcd"
+set statusbar-bg "#1c1c24"
+
+set completion-highlight-bg "#333738"
+set completion-highlight-fg "#ababab"
+
+set recolor true
+set recolor-lightcolor "#141415"
+set recolor-darkcolor "#cdcdcd"

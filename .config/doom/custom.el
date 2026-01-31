@@ -1,0 +1,45 @@
+;;; -*- lexical-binding: t -*-
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("fd8d871cd899b5582c1730ac09853cb50794dd3e0e652a36fc210f2bc6441952"
+     "78d48cdb3134b0228ea51c65b3156ffab401234a1ca1a33ffcefb90f15faded1"
+     "854d234dfaf1ff78b55feafb5318cf5cd5ee01edcba21fb21994001532241217"
+     "db420e13d44d6e39ba83dc44bf98d5f4d266e1b8429c941647d082f0c67790cb"
+     "b0558f2e500eee59f8cc550bd08510ad254a5b3cade70ac8aa51ffd6481cb553"
+     "1fab670907dc6c46cd39c2620f83098809f29ddeae1b61e888fc24126314ffce"
+     "2a6dde7683978fb4b2555c50dcac7c04bafedea84305039f31daf901fbeedb5b"
+     "dfaeb07c3ddfac243f176619d02ea32553c8e9b63bf28db5a0f5b73888cffd50"
+     "689ab5ada680e87a7f5160994f1afb9681f8e14efd546601d312cb34cd1cb3f6"
+     "9125fe54014fcf488149a7eb61ec34e793391447acaf5bca57c76fa349a7499f"
+     "ca4ee7caba7477607c76b959ccd6de98bd0e1d9bf30a9572314053764ffd1875"
+     "6bc4f201330f8d518a772a5f8e630302eccdcfaa6bf5b1f53e15be5cf485ec18"
+     "7ce8027ececbd3ab990e1566f12069d1b729f4c2dc157273eeb6b45e1cd19f98"
+     "59aaf8c157dbbf902383f5c237ecc02cce8da890685342105cc484e027270c40"
+     "a5ba9557cb6338583035dc0d01155ee4d21c29020ceee609a96e07f04b722244"
+     "efe36b2c99599f633808a44efbea57a37613254a6069e00c283c72ad759cfc7a"
+     "504a02efd2ab31a4fd53645ff63f4fd9fba479fbdf69fe28cf8260c02771aa59"
+     "861a834dd261cb6252c91d562a97ba928d2d7e1bb09501ec3ceb31353f55f468"
+     "3424aec9cd68db948e652f77540b43a55f53e9b0ae13e5e6fbf17abed52ccd8e"
+     "0c8890628632972018521c90ac145747064f74e53357f0e3c7394a55c05e9c44"
+     "53ba06fa844c889b0909b8f3024e3f8152eea3ed8a17406687782da99870d77b"
+     "05d6cd04e684003164977e7994e1324583b5de262660245aab4454752ee036e3"
+     "4e36557b4d03119048b6e1abd9e0c06716091eeeaac7c862c7c7e2c3501584df"
+     "2f5525b528a0c40f461b5caeb434685a02c24a20164595fb2f731b9302f88ed2"
+     "a9bf725220fea0f3f675a5a991a5e39125fc7ba254d844d62245e2aa216b2af0"
+     "7771c8496c10162220af0ca7b7e61459cb42d18c35ce272a63461c0fc1336015"
+     "5c8a1b64431e03387348270f50470f64e28dfae0084d33108c33a81c1e126ad6"
+     "e63807a0b0bdb8dc1b0b42ef44e92951305a0053f504eb1a4aee3dfcd5ea4946"
+     "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
+     "4a4c241795237a2fd246306f0aaf29dabf377b073aef30b944986729e4329faa"
+     "d2719a7969b1367c61a31f68e7bfca9664c595668b47779d1c497447c2984fdf"
+     "e8bd9bbf6506afca133125b0be48b1f033b1c8647c628652ab7a2fe065c10ef0" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

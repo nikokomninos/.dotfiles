@@ -12,7 +12,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="lambda"
+ZSH_THEME="gentoo"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -127,13 +127,17 @@ unsetopt menucomplete
 export PATH="$HOME/.config/emacs/bin:Library/TeX/texbin:/Users/nk/.local/bin:$PATH"
 export EDITOR=nvim
 
-alias ls='ls -al --color=auto'
+ alias ls='ls -al --color=auto'
 alias vim='nvim'
 alias sz='source ~/.zshrc'
 alias zc='vim ~/.zshrc'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # alias tmux='tmux attach-session -t default || tmux new-session -s default'
 alias cd='z'
+alias f='cd $(find * -type d | fzf)'
+alias fm='open .'
+alias tm='tmux attach-session -t default || tmux new-session -s default'
+alias v='vim'
 
 eval "$(zoxide init zsh)"
 
@@ -144,3 +148,22 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# opencode
+export PATH=/Users/nk/.opencode/bin:$PATH
+
+# bun completions
+[ -s "/Users/nk/.bun/_bun" ] && source "/Users/nk/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/nk/.lmstudio/bin"
+# End of LM Studio CLI section
+
