@@ -67,6 +67,7 @@
                      ((org-agenda-overriding-header "Homework")))))))
 (setq org-hide-emphasis-markers t)
 (setq org-agenda-include-diary t)
+(setq org-log-done 'time)
 
 
 ;; Custom Keybindings

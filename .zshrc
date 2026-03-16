@@ -138,6 +138,9 @@ alias f='cd $(find * -type d | fzf)'
 alias fm='open .'
 alias tm='tmux attach-session -t default || tmux new-session -s default'
 alias v='vim'
+alias p3='python3'
+alias leet='vim -c Leet'
+alias lg='lazygit'
 
 eval "$(zoxide init zsh)"
 
@@ -149,8 +152,6 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-# opencode
-export PATH=/Users/nk/.opencode/bin:$PATH
 
 # bun completions
 [ -s "/Users/nk/.bun/_bun" ] && source "/Users/nk/.bun/_bun"
@@ -167,3 +168,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/Users/nk/.lmstudio/bin"
 # End of LM Studio CLI section
 
+#csharp tools
+export PATH="$PATH:/Users/nk/.dotnet/tools"
+
+#golang bin
+export PATH="$PATH:/Users/nk/go/bin"
