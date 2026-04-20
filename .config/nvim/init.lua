@@ -41,6 +41,7 @@ vim.o.inccommand = 'split'
 -- vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
+vim.o.colorcolumn = "79"
 
 vim.diagnostic.config({
   virtual_text = {
@@ -108,23 +109,18 @@ require("lazy").setup({
     },
 
     {
-      "nvim-treesitter/nvim-treesitter",
-      branch = 'master',
+      'nvim-treesitter/nvim-treesitter',
       lazy = false,
-      build = ":TSUpdate",
+      branch = "main",
+      build = ':TSUpdate',
       opts = {
-        ensure_installed = { "lua", "typescript", "html", "c", "cpp", "java", "go", "typst" },
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
-        ignore_install = { "org" },
       },
-      config = function(_, opts)
-        require("nvim-treesitter.configs").setup(opts)
-      end,
     },
 
-    { "nvim-treesitter/nvim-treesitter-context" },
+    --{ "nvim-treesitter/nvim-treesitter-context" },
 
     {
       'windwp/nvim-autopairs',
@@ -145,8 +141,12 @@ require("lazy").setup({
 
     {
       'nvim-telescope/telescope.nvim',
-      tag = '0.1.8',
-      dependencies = { 'nvim-lua/plenary.nvim' }
+      version = '*',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        -- optional but recommended
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      }
     },
 
     {
@@ -253,34 +253,34 @@ require("lazy").setup({
       cmd = "Trouble",
     },
 
-    {
-      "nvim-neotest/neotest",
-      dependencies = {
-        "nvim-neotest/nvim-nio",
-        "nvim-lua/plenary.nvim",
-        "antoinemadec/FixCursorHold.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "rcasia/neotest-java",
-      },
-      config = function()
-        require("neotest").setup({
-          adapters = {
-            require("neotest-java"),
-          },
-        })
-      end,
-    },
+    -- {
+    --   "nvim-neotest/neotest",
+    --   dependencies = {
+    --     "nvim-neotest/nvim-nio",
+    --     "nvim-lua/plenary.nvim",
+    --     "antoinemadec/FixCursorHold.nvim",
+    --     "nvim-treesitter/nvim-treesitter",
+    --     "rcasia/neotest-java",
+    --   },
+    --   config = function()
+    --     require("neotest").setup({
+    --       adapters = {
+    --         require("neotest-java"),
+    --       },
+    --     })
+    --   end,
+    -- },
 
-    {
-      "rcasia/neotest-java",
-      ft = "java",
-      dependencies = {
-        "mfussenegger/nvim-jdtls",
-        "mfussenegger/nvim-dap",           -- for the debugger
-        "rcarriga/nvim-dap-ui",            -- recommended
-        "theHamsta/nvim-dap-virtual-text", -- recommended
-      },
-    },
+    -- {
+    --   "rcasia/neotest-java",
+    --   ft = "java",
+    --   dependencies = {
+    --     "mfussenegger/nvim-jdtls",
+    --     "mfussenegger/nvim-dap",           -- for the debugger
+    --     "rcarriga/nvim-dap-ui",            -- recommended
+    --     "theHamsta/nvim-dap-virtual-text", -- recommended
+    --   },
+    -- },
 
     -- { "jay-babu/mason-nvim-dap.nvim" },
 
@@ -423,32 +423,32 @@ require("lazy").setup({
 
     { 'sindrets/diffview.nvim' },
 
-    {
-      "ray-x/go.nvim",
-      dependencies = { -- optional packages
-        "ray-x/guihua.lua",
-        "neovim/nvim-lspconfig",
-        "nvim-treesitter/nvim-treesitter",
-      },
-      opts = function()
-        require("go").setup(opts)
-        local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          pattern = "*.go",
-          callback = function()
-            require('go.format').goimports()
-          end,
-          group = format_sync_grp,
-        })
-        return {
-          -- lsp_keymaps = false,
-          -- other options
-        }
-      end,
-      event = { "CmdlineEnter" },
-      ft = { "go", 'gomod' },
-      build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-    },
+    -- {
+    --   "ray-x/go.nvim",
+    --   dependencies = { -- optional packages
+    --     "ray-x/guihua.lua",
+    --     "neovim/nvim-lspconfig",
+    --     "nvim-treesitter/nvim-treesitter",
+    --   },
+    --   opts = function()
+    --     require("go").setup(opts)
+    --     local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+    --     vim.api.nvim_create_autocmd("BufWritePre", {
+    --       pattern = "*.go",
+    --       callback = function()
+    --         require('go.format').goimports()
+    --       end,
+    --       group = format_sync_grp,
+    --     })
+    --     return {
+    --       -- lsp_keymaps = false,
+    --       -- other options
+    --     }
+    --   end,
+    --   event = { "CmdlineEnter" },
+    --   ft = { "go", 'gomod' },
+    --   build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+    -- },
 
     {
       "seblyng/roslyn.nvim",
@@ -633,72 +633,72 @@ vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
 vim.keymap.set('n', 'gk', vim.diagnostic.open_float)
 
 require("which-key").add({
-  { "<leader>b", group = "buffer" },
-  { "<leader>bb", "<cmd>Telescope buffers<cr>", desc = "List buffers" },
-  { "<leader>bk", "<cmd>bd<cr>", desc = "Kill buffer" },
-  { "<leader>bn", "<cmd>bn<cr>", desc = "Next buffer" },
-  { "<leader>bp", "<cmd>bp<cr>", desc = "Previous buffer" },
+  { "<leader>b",  group = "buffer" },
+  { "<leader>bb", "<cmd>Telescope buffers<cr>",                                    desc = "List buffers" },
+  { "<leader>bk", "<cmd>bd<cr>",                                                   desc = "Kill buffer" },
+  { "<leader>bn", "<cmd>bn<cr>",                                                   desc = "Next buffer" },
+  { "<leader>bp", "<cmd>bp<cr>",                                                   desc = "Previous buffer" },
 
-  { "<leader>c", group = "code" },
-  { "<leader>ca", vim.lsp.buf.code_action, desc = "Code action", mode = "n" },
-  { "<leader>cf", vim.lsp.buf.format, desc = "Format buffer", mode = "n" },
-  { "<leader>cm", function() require("conform").format({ async = true }) end, desc = "Format with conform", mode = "n" },
-  { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", mode = "n" },
-  { "cR", "<cmd>Telescope lsp_references<cr>", desc = "LSP references" },
-  { "cs", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document symbols" },
-  { "cS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Workspace symbols" },
+  { "<leader>c",  group = "code" },
+  { "<leader>ca", vim.lsp.buf.code_action,                                         desc = "Code action",                mode = "n" },
+  { "<leader>cf", vim.lsp.buf.format,                                              desc = "Format buffer",              mode = "n" },
+  { "<leader>cm", function() require("conform").format({ async = true }) end,      desc = "Format with conform",        mode = "n" },
+  { "<leader>cr", vim.lsp.buf.rename,                                              desc = "Rename",                     mode = "n" },
+  { "cR",         "<cmd>Telescope lsp_references<cr>",                             desc = "LSP references" },
+  { "cs",         "<cmd>Telescope lsp_document_symbols<cr>",                       desc = "Document symbols" },
+  { "cS",         "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",              desc = "Workspace symbols" },
 
-  { "<leader>d", group = "debug" },
-  { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint", mode = "n" },
-  { "<leader>dc", function() require("dap").continue() end, desc = "Continue", mode = "n" },
-  { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to cursor", mode = "n" },
-  { "<leader>dT", function() require("dap").terminate() end, desc = "Terminate", mode = "n" },
-  { "<leader>du", function() require("dapui").toggle({}) end, desc = "Toggle UI", mode = "n" },
+  { "<leader>d",  group = "debug" },
+  { "<leader>db", function() require("dap").toggle_breakpoint() end,               desc = "Toggle breakpoint",          mode = "n" },
+  { "<leader>dc", function() require("dap").continue() end,                        desc = "Continue",                   mode = "n" },
+  { "<leader>dC", function() require("dap").run_to_cursor() end,                   desc = "Run to cursor",              mode = "n" },
+  { "<leader>dT", function() require("dap").terminate() end,                       desc = "Terminate",                  mode = "n" },
+  { "<leader>du", function() require("dapui").toggle({}) end,                      desc = "Toggle UI",                  mode = "n" },
 
-  { "<leader>e", group = "error" },
-  { "<leader>en", vim.diagnostic.goto_next, desc = "Next diagnostic", mode = "n" },
-  { "<leader>ep", vim.diagnostic.goto_prev, desc = "Previous diagnostic", mode = "n" },
+  { "<leader>e",  group = "error" },
+  { "<leader>en", function() vim.diagnostic.jump({ count = 1 }) end,               desc = "Next diagnostic",            mode = "n" },
+  { "<leader>ep", function() vim.diagnostic.jump({ count = -1 }) end,              desc = "Previous diagnostic",        mode = "n" },
 
-  { "<leader>f", group = "file" },
-  { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
-  { "<leader>fm", "<cmd>!Open -a Finder %:p:h<cr>", desc = "Open in Finder" },
-  { "<leader>fo", "<cmd>Oil<cr>", desc = "Oil file manager" },
-  { "<leader>fp", "<cmd>e ~/.config/nvim/init.lua<cr>", desc = "Edit init.lua" },
-  { "<leader>ft", "<cmd>e ~/.config/templates/template.typ<cr>", desc = "Edit template.typ" },
+  { "<leader>f",  group = "file" },
+  { "<leader>ff", "<cmd>Telescope find_files<cr>",                                 desc = "Find files" },
+  { "<leader>fm", "<cmd>!Open -a Finder %:p:h<cr>",                                desc = "Open in Finder" },
+  { "<leader>fo", "<cmd>Oil<cr>",                                                  desc = "Oil file manager" },
+  { "<leader>fp", "<cmd>e ~/.config/nvim/init.lua<cr>",                            desc = "Edit init.lua" },
+  { "<leader>ft", "<cmd>e ~/.config/templates/template.typ<cr>",                   desc = "Edit template.typ" },
 
-  { "<leader>g", group = "git" },
-  { "<leader>gc", "<cmd>LazyGitCurrentFile<cr>", desc = "LazyGit current file" },
-  { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview open" },
-  { "<leader>gD", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview file history" },
-  { "<leader>gf", "<cmd>LazyGitFilter<cr>", desc = "LazyGit filter" },
-  { "<leader>gF", "<cmd>LazyGitFilterCurrentFile<cr>", desc = "LazyGit filter current file" },
-  { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-  { "<leader>gl", "<cmd>LazyGitLog<cr>", desc = "LazyGit log" },
+  { "<leader>g",  group = "git" },
+  { "<leader>gc", "<cmd>LazyGitCurrentFile<cr>",                                   desc = "LazyGit current file" },
+  { "<leader>gd", "<cmd>DiffviewOpen<cr>",                                         desc = "Diffview open" },
+  { "<leader>gD", "<cmd>DiffviewFileHistory<cr>",                                  desc = "Diffview file history" },
+  { "<leader>gf", "<cmd>LazyGitFilter<cr>",                                        desc = "LazyGit filter" },
+  { "<leader>gF", "<cmd>LazyGitFilterCurrentFile<cr>",                             desc = "LazyGit filter current file" },
+  { "<leader>gg", "<cmd>LazyGit<cr>",                                              desc = "LazyGit" },
+  { "<leader>gl", "<cmd>LazyGitLog<cr>",                                           desc = "LazyGit log" },
 
-  { "<leader>h", group = "help" },
-  { "<leader>hk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+  { "<leader>h",  group = "help" },
+  { "<leader>hk", "<cmd>Telescope keymaps<cr>",                                    desc = "Keymaps" },
 
-  { "<leader>l", group = "tools" },
-  { "<leader>lb", "<cmd>set tw=80<cr><cmd>set fo+=t<cr>", desc = "Set textwidth 80" },
-  { "<leader>ll", "<cmd>Lazy<cr>", desc = "Lazy" },
-  { "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" },
+  { "<leader>l",  group = "tools" },
+  { "<leader>lb", "<cmd>set tw=80<cr><cmd>set fo+=t<cr>",                          desc = "Set textwidth 80" },
+  { "<leader>ll", "<cmd>Lazy<cr>",                                                 desc = "Lazy" },
+  { "<leader>lm", "<cmd>Mason<cr>",                                                desc = "Mason" },
 
-  { "<leader>k", function() require("dict").lookup() end, desc = "Dictionary lookup", mode = "n" },
+  { "<leader>k",  function() require("dict").lookup() end,                         desc = "Dictionary lookup",          mode = "n" },
 
-  { "<leader>s", group = "search" },
-  { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search buffer" },
-  { "<leader>ss", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
+  { "<leader>s",  group = "search" },
+  { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                  desc = "Search buffer" },
+  { "<leader>ss", "<cmd>Telescope live_grep<cr>",                                  desc = "Live grep" },
 
-  { "<leader>t", group = "test" },
-  { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug test", mode = "n" },
-  { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Test file", mode = "n" },
-  { "<leader>tr", function() require("neotest").run.run() end, desc = "Run test", mode = "n" },
-  { "<leader>ts", function() require("neotest").run.stop() end, desc = "Stop test", mode = "n" },
-  { "<leader>tt", "<cmd>Neotest summary<cr>", desc = "Test summary" },
+  { "<leader>t",  group = "test" },
+  { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Debug test",                 mode = "n" },
+  { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end,   desc = "Test file",                  mode = "n" },
+  { "<leader>tr", function() require("neotest").run.run() end,                     desc = "Run test",                   mode = "n" },
+  { "<leader>ts", function() require("neotest").run.stop() end,                    desc = "Stop test",                  mode = "n" },
+  { "<leader>tt", "<cmd>Neotest summary<cr>",                                      desc = "Test summary" },
 
-  { "<leader>x", group = "trouble" },
-  { "<leader>xg", "<cmd>Trouble diagnostics toggle<cr>", desc = "Global diagnostics" },
-  { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer diagnostics" },
-  { "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location list" },
-  { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix list" },
+  { "<leader>x",  group = "trouble" },
+  { "<leader>xg", "<cmd>Trouble diagnostics toggle<cr>",                           desc = "Global diagnostics" },
+  { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",              desc = "Buffer diagnostics" },
+  { "<leader>xl", "<cmd>Trouble loclist toggle<cr>",                               desc = "Location list" },
+  { "<leader>xq", "<cmd>Trouble qflist toggle<cr>",                                desc = "Quickfix list" },
 })
