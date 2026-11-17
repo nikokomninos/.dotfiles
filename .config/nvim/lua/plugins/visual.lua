@@ -3,13 +3,8 @@ return {
     "vague2k/vague.nvim",
     lazy = false,
     priority = 1000,
-    config = function()
-      require("vague").setup({
-      --  colors = {
-      --    bg = '#000000',
-      --    inactiveBg = '#101010'
-      --  }
-      })
+    config = function ()
+      require("vague").setup({})
       vim.cmd("colorscheme vague")
     end
   },
@@ -32,7 +27,7 @@ return {
       scope = { enabled = false },
       scroll = { enabled = false },
       statuscolumn = { enabled = false },
-      words = { enabled = false },
-    },
+      words = { enabled = false }
+    }
   },
 }

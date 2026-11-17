@@ -1,7 +1,3 @@
-#if [ -z "$TMUX" ]; then
-#  tmux attach-session -t default || tmux new-session -s default
-#fi
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -126,8 +122,10 @@ unsetopt menucomplete
 
 export PATH="$HOME/.config/emacs/bin:Library/TeX/texbin:/Users/nk/.local/bin:$PATH"
 export EDITOR=nvim
+#export TERM=xterm-256color
+#export TERM=tmux-256color
 
- alias ls='ls -al --color=auto'
+alias ls='ls -al --color=auto'
 alias vim='nvim'
 alias sz='source ~/.zshrc'
 alias zc='vim ~/.zshrc'
@@ -136,11 +134,14 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cd='z'
 alias f='cd $(find * -type d | fzf)'
 alias fm='open .'
-alias tm='tmux attach-session -t default || tmux new-session -s default'
+alias t='tmux attach-session -t default || tmux new-session -s default'
 alias v='vim'
+alias y='yazi'
 alias p3='python3'
 alias leet='vim -c Leet'
 alias lg='lazygit'
+alias e='exit'
+alias o='opencode'
 
 eval "$(zoxide init zsh)"
 
@@ -173,3 +174,16 @@ export PATH="$PATH:/Users/nk/.dotnet/tools"
 
 #golang bin
 export PATH="$PATH:/Users/nk/go/bin"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+# evilassblocker
+# export ANDROID_HOME="$HOME/Library/Android/sdk"
+# export ANDROID_SDK_ROOT="$ANDROID_HOME"
+# export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+# 
+# export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+# export PATH="$JAVA_HOME/bin:$PATH"
+# export PATH="/opt/homebrew/opt/node@22/bin:$PATH"

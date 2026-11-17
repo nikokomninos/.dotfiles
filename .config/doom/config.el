@@ -33,7 +33,7 @@
 (add-hook 'java-ts-mode-hook 'lsp)
 (setq corfu-auto t
       corfu-auto-delay 0.0  ; Set to 0.0 or a small value like 0.1
-      corfu-auto-prefix 2)   ; Minimum prefix length for auto-completion
+      corfu-auto-prefix 1)   ; Minimum prefix length for auto-completion
 
 
 ;; MacOS Settings

@@ -5,7 +5,7 @@ return {
     version = '1.*',
     opts = {
       invert_colors = '{"rest": "always", "image": "never"}'
-    },
+    }
   },
 
   {
@@ -13,17 +13,17 @@ return {
     dependencies = {
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
+      "nvim-treesitter/nvim-treesitter"
     },
-    opts = function()
+    opts = function ()
       require("go").setup(opts)
       local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
       vim.api.nvim_create_autocmd("BufWritePre", {
         pattern = "*.go",
-        callback = function()
+        callback = function ()
           require('go.format').goimports()
         end,
-        group = format_sync_grp,
+        group = format_sync_grp
       })
       return {}
     end,
@@ -34,19 +34,35 @@ return {
 
   {
     "seblyng/roslyn.nvim",
-    opts = {},
+    opts = {}
   },
 
   {
     'jakewvincent/mkdnflow.nvim',
-    config = function()
+    config = function ()
       require('mkdnflow').setup({})
     end
   },
 
   {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && npm install",
+    init = function ()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" }
+  },
+
+  {
     'mrcjkb/rustaceanvim',
     version = '^8',
-    lazy = false,
+    lazy = false
   },
+
+  {
+    "nvim-svelte/nvim-svelte-snippets",
+    dependencies = "L3MON4D3/LuaSnip",
+    opts = {}
+  }
 }

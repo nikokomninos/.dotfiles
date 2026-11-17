@@ -19,6 +19,10 @@
   margin: 1in
 )
 
+#set figure(
+  gap: 2em
+)
+
 #show figure: set align(center)
 
 #show heading: set block(above: 2em, below: 2em)
@@ -88,6 +92,6 @@
 
 #set align(center + top)
 
-=== *#title*
+= #title
 
 #set align(left)

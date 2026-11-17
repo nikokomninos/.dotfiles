@@ -1,5 +1,7 @@
 set adjust-open "best-fit"
 
+set selection-clipboard clipboard
+
 set default-bg "#141415"
 
 set statusbar-fg "#cdcdcd"
